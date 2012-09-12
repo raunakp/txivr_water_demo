@@ -17,6 +17,7 @@ class UsersController < ApplicationController
         response.headers["tx_acc_number"] = @users[0][:account_number]
         response.headers["tx_address"] = @users[0][:address]
         response.headers["tx_email"] = @users[0][:email]
+        response.headers["tx_user_id"] = @users[0][:id].to_s
         render json: @users
       end
     end

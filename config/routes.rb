@@ -1,4 +1,6 @@
 TxivrWaterDemo::Application.routes.draw do
+  resources :readings
+
   resources :users
   match 'match_phone/:number' => 'Users#index'
 
