@@ -1,4 +1,7 @@
 TxivrWaterDemo::Application.routes.draw do
+  resources :users
+  match 'match_phone/:number' => 'Users#index'
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
