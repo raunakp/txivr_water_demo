@@ -1,4 +1,36 @@
 class UsersController < ApplicationController
+
+
+  # HEAD /match_account_number
+  # GET  /match_account_number
+
+    def match
+      acc_number = request.env["HTTP_TX_ACCOUNT_NUMBER"]
+      ani = request.env["HTTP_TX_ANI"]
+      @user = User.where(:account_number => acc_number).limit(1)[0]
+      respond_to do |format|
+        format.json do
+          if @user.present?
+            response.headers["TX_MATCH_STATUS"] = "ok"
+            response.headers["TX_MATCH_STATUS_CODE"] = "200"
+            response.headers["TX_USER_FNAME"] = @user[:fname]
+            response.headers["TX_USER_LNAME"] = @user[:lname]
+            response.headers["TX_USER_PHONE_NUMBER"] = @user[:phone_number].to_s
+            response.headers["TX_USER_ID"] = @user[:id].to_s
+            if ani.index(@user[:phone_number])
+              response.headers["TX_ANI_MATCHED"] = "yes"
+            else
+              response.headers["TX_ANI_MATCHED"] = "no"
+            end
+          else
+            response.headers["TX_MATCH_STATUS"] = "not matched"
+            response.headers["TX_MATCH_STATUS_CODE"] = "400"
+          end
+          render json: @user
+        end
+      end
+    end
+
   # GET /users
   # GET /users.json
   def index

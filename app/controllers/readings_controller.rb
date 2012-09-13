@@ -1,4 +1,26 @@
 class ReadingsController < ApplicationController
+
+
+  # HEAD /create_meter_reading
+  # GET /create_meter_reading
+  def create_meter_reading
+    userid = Integer(request.env["HTTP_TX_USER_ID"])
+    meterreading = request.env["HTTP_TX_METER_READING"]
+    @reading = Reading.create(:user_id => userid, :meter_reading => meterreading)
+    respond_to do |format|
+      format.json do
+        if @reading.save
+          response.headers["TX_UPDATE_STATUS"] = "ok"
+          response.headers["TX_UPDATE_STATUS_CODE"] = "200"
+        else
+          response.headers["TX_UPDATE_STATUS"] = "could not create reading entry"
+          response.headers["TX_UPDATE_STATUS_CODE"] = "400"
+        end
+        render json: @reading
+      end
+    end
+  end
+
   # GET /readings
   # GET /readings.json
   def index
@@ -47,11 +69,21 @@ class ReadingsController < ApplicationController
           format.json do
             response.headers["tx_status"] = "ok"
             response.headers["tx_reading_id"] = @reading[:id].to_s
-            render json: @users
+            response.headers["tx_dummy_header"] = request.env["HTTP_DUMMY_HEADER"]<<"_hahaha"
+            #response.headers["tx_dummy_header"] = request.env["HTTP_DUMMY_HEADER"]
+
+             # for header in request.env.select {|k,v| k.match("^HTTP.*")}
+             #   response.headers["#{header[0].split('_',2)[1]}"] = "#{header[1]}"
+             # end
+
+            render json: @reading
+          end
+        else
+          format.json do
+            response.headers["tx_status"] = "error"
           end
         end
       end
-
     else
       @reading = Reading.new(params[:reading])
 

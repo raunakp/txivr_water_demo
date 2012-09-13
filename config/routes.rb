@@ -1,9 +1,9 @@
 TxivrWaterDemo::Application.routes.draw do
   resources :readings
-  match 'add_reading/:userid/:readingvalue' => 'Readings#create'
+  match 'create_meter_reading' => 'Readings#create_meter_reading'
 
   resources :users
-  match 'match_phone/:number' => 'Users#index'
+  match 'match_account_number' => 'Users#match'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
