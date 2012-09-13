@@ -1,5 +1,6 @@
 TxivrWaterDemo::Application.routes.draw do
   resources :readings
+  match 'add_reading/:userid/:readingvalue' => 'Readings#create'
 
   resources :users
   match 'match_phone/:number' => 'Users#index'

@@ -40,15 +40,29 @@ class ReadingsController < ApplicationController
   # POST /readings
   # POST /readings.json
   def create
-    @reading = Reading.new(params[:reading])
+    if (params[:readingvalue] && params[:userid])
+      @reading = Reading.create(:user_id => params[:userid], :meter_reading => params[:readingvalue])
+      respond_to do |format|
+        if @reading.save
+          format.json do
+            response.headers["tx_status"] = "ok"
+            response.headers["tx_reading_id"] = @reading[:id].to_s
+            render json: @users
+          end
+        end
+      end
 
-    respond_to do |format|
-      if @reading.save
-        format.html { redirect_to @reading, notice: 'Reading was successfully created.' }
-        format.json { render json: @reading, status: :created, location: @reading }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @reading.errors, status: :unprocessable_entity }
+    else
+      @reading = Reading.new(params[:reading])
+
+      respond_to do |format|
+        if @reading.save
+          format.html { redirect_to @reading, notice: 'Reading was successfully created.' }
+          format.json { render json: @reading, status: :created, location: @reading }
+        else
+          format.html { render action: "new" }
+          format.json { render json: @reading.errors, status: :unprocessable_entity }
+        end
       end
     end
   end
