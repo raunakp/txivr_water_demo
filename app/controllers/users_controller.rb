@@ -16,6 +16,7 @@ class UsersController < ApplicationController
             response.headers["TX_USER_FNAME"] = @user[:fname]
             response.headers["TX_USER_LNAME"] = @user[:lname]
             response.headers["TX_USER_PHONE_NUMBER"] = @user[:phone_number].to_s
+            response.headers["TX_USER_PHONE_NUMBER_LENGTH"] = @user[:phone_number].to_s.length.to_s
             response.headers["TX_USER_ID"] = @user[:id].to_s
             if ani.index(@user[:phone_number])
               response.headers["TX_ANI_MATCHED"] = "yes"
