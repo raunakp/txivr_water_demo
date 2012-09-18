@@ -16,14 +16,16 @@
     <td><%= reading.meter_reading %></td>
     <td><%= "#{reading.user.fname} #{reading.user.lname}" %></td>
     <td><%= reading.user.account_number %></td>
-    <td><%= reading.created_at%></td>
-    <td><%= link_to 'Show', reading %></td>
-    <td><%= link_to 'Edit', edit_reading_path(reading) %></td>
-    <td><%= link_to 'Destroy', reading, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    <%min = cookies[:timezone].to_i
+      Time.zone = ActiveSupport::TimeZone[-min.minutes]%>
+    <td><%= reading.created_at.to_formatted_s(:short)%></td>
+    <td><%#= link_to 'Show', reading %></td>
+    <td><%#= link_to 'Edit', edit_reading_path(reading) %></td>
+    <td><%#= link_to 'Destroy', reading, method: :delete, data: { confirm: 'Are you sure?' } %></td>
   </tr>
 <% end %>
 </table>
 
 <br />
 
-<%= link_to 'New Reading', new_reading_path %>
+<!--%= link_to 'New Reading', new_reading_path %-->
