@@ -7,7 +7,16 @@ class UsersController < ApplicationController
     def match
       acc_number = request.env["HTTP_TX_ACCOUNT_NUMBER"]
       ani = request.env["HTTP_TX_ANI"]
+      if ani.nil?
+        ani = "0"
+      end
       @user = User.where(:account_number => acc_number).limit(1)[0]
+      last_reading = @user.readings.last
+      if last_reading.nil?
+        last_reading = "0"
+      else
+        last_reading = last_reading.meter_reading
+      end
       respond_to do |format|
         format.json do
           if @user.present?
@@ -18,6 +27,7 @@ class UsersController < ApplicationController
             response.headers["TX_USER_PHONE_NUMBER"] = @user[:phone_number].to_s
             response.headers["TX_USER_PHONE_NUMBER_LENGTH"] = @user[:phone_number].to_s.length.to_s
             response.headers["TX_USER_ID"] = @user[:id].to_s
+            response.headers["TX_LAST_READING"] = last_reading
             if ani.index(@user[:phone_number])
               response.headers["TX_ANI_MATCHED"] = "yes"
             else
