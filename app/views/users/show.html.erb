@@ -2,18 +2,18 @@
 <p id="notice"><%= notice %></p>
 
 <p>
+  <b>Name:</b>
+  <%= "#{@user.fname} #{@user.lname}" %>
+</p>
+
+<p>
+  <b>Account number:</b>
+  <%= @user.account_number %>
+</p>
+
+<p>
   <b>Phone number:</b>
   <%= @user.phone_number %>
-</p>
-
-<p>
-  <b>Fname:</b>
-  <%= @user.fname %>
-</p>
-
-<p>
-  <b>Lname:</b>
-  <%= @user.lname %>
 </p>
 
 <p>
@@ -24,34 +24,30 @@
 <p>
   <b>Address:</b>
   <%= @user.address %>
+  <b>Phone number:</b>
+  <%= @user.phone_number %>
 </p>
 
-<p>
-  <b>Account number:</b>
-  <%= @user.account_number %>
-</p>
 
 <p>
-  <h1>Listing readings</h1>
+  <h1>Readings</h1>
 
-<table>
+<table border = "1" cellpadding = 4>
   <tr>
-    <th>Meter reading</th>
+    <th>Reading</th>
     <th>Created at</th>
+    <!--th></th>
     <th></th>
-    <th></th>
-    <th></th>
+    <th></th-->
   </tr>
 
 <% @readings.each do |reading| %>
   <tr>
     <td><%= reading.meter_reading %></td>
-    <%min = cookies[:timezone].to_i
-      Time.zone = ActiveSupport::TimeZone[-min.minutes]%>
-    <td><%= reading.created_at.to_formatted_s(:short)%></td>
-    <td><%#= link_to 'Show', reading %></td>
+    <td><%= reading.created_at.in_time_zone('Eastern Time (US & Canada)').to_formatted_s(:short)%></td>
+    <!--td><%#= link_to 'Show', reading %></td>
     <td><%#= link_to 'Edit', edit_reading_path(reading) %></td>
-    <td><%#= link_to 'Destroy', reading, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    <td><%#= link_to 'Destroy', reading, method: :delete, data: { confirm: 'Are you sure?' } %></td-->
   </tr>
 <% end %>
 </table>
