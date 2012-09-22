@@ -23,9 +23,11 @@
   <%= @user.phone_number %>
 </p>
 
-
+<br/>
+<br/>
+<% if @readings.count > 1 %>
 <p>
-  <h1>Readings</h1>
+  <h2 style="text-align:left">Readings</h1>
 
 <table border = "1" cellpadding = 4>
   <tr>
@@ -49,7 +51,10 @@
 
 <br />
 </p>
-
-
+<%else%>
+No readings found.
+<%end%>
+<br/>
+<br/>
 <%= link_to 'Edit', edit_user_path(@user) %> |
 <%= link_to 'Back', users_path %>

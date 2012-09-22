@@ -1,4 +1,4 @@
-<h1>Users</h1>
+<h2 style="text-align:left">Users</h1>
 
 <table border = "1" cellpadding = 4>
   <tr>
@@ -21,7 +21,7 @@
     <td><%= user.email %></td>
     <td><%= user.address %></td>
     <td><%= user.account_number %></td>
-    <td><%= link_to 'Show', user %></td>
+    <td><%= link_to 'Readings', user %></td>
     <td><%= link_to 'Edit', edit_user_path(user) %></td>
     <td><%= link_to 'Delete', user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
   </tr>
