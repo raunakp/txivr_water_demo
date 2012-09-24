@@ -1,0 +1,21 @@
+%h2{style: "text-align:left"}Readings
+%table{border: "1", cellpadding: 4}
+  %tr
+    %th Reading
+    %th User
+    %th Account #
+    %th Created at
+    %th
+    %th
+  -@readings.reverse.each do |reading|
+    %tr
+      %td= reading.meter_reading
+      %td= "#{reading.user.fname} #{reading.user.lname}"
+      %td= reading.user.account_number
+      %td= reading.created_at.in_time_zone('Eastern Time (US & Canada)').to_formatted_s(:short)
+      %td= link_to 'Edit', edit_reading_path(reading)
+      %td= link_to 'Destroy', reading, method: :delete, data: { confirm: 'Are you sure?' }
+    %tr
+%table
+%br
+=link_to 'New Reading', new_reading_path

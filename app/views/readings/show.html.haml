@@ -1,0 +1,12 @@
+-provide(:title, 'Reading')
+%p{id: "notice"}=notice
+%p
+  Meter reading:
+  =@reading.meter_reading
+%p
+  %b
+    User:
+  =@reading.user_id
+=link_to 'Edit', edit_reading_path(@reading)
+|
+= link_to 'Back', readings_path
